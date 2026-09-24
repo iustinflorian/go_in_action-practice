@@ -22,12 +22,12 @@ func New(fn func() (io.Closer, error), size uint) (*Pool, error) {
 	}
 
 	return &Pool{
-		factory: fn,
+		factory:   fn,
 		resources: make(chan io.Closer, size),
 	}, nil
 }
 
-func (p *Pool) Acquire() (io.Closer, error){
+func (p *Pool) Acquire() (io.Closer, error) {
 	select {
 	case r, ok := <-p.resources:
 		log.Println("acquire:", "shared resource")
@@ -41,7 +41,7 @@ func (p *Pool) Acquire() (io.Closer, error){
 	}
 }
 
-func (p *Pool) Release(r io.Closer){
+func (p *Pool) Release(r io.Closer) {
 	p.m.Lock()
 	defer p.m.Unlock()
 
@@ -71,7 +71,7 @@ func (p *Pool) Close() {
 
 	close(p.resources)
 
-	for r:= range p.resources{
+	for r := range p.resources {
 		r.Close()
 	}
 }
