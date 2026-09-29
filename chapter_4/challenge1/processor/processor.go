@@ -12,7 +12,7 @@ func getBatch(ids []ID, batchSize int) Batch {
 	newBatch := ids[0:size:size]
 
 	return Batch{
-		BatchSize: batchSize,
+		BatchSize: size,
 		BatchElem: newBatch,
 	}
 }
