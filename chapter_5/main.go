@@ -1,62 +1,19 @@
 package main
 
-import "fmt"
+import (
+	"go_in_action-practice/chapter_5/entities"
+)
 
-type Printer interface {
-	Print()
-}
-
-type User struct {
-	Name  string
-	Email string // exported (public)
-	id    int    // unexported (private)
-}
-
-type Admin struct {
-	User
-	Level string
-}
-
-func (u *User) Print() {
-	fmt.Printf("User: %s | Email: %s\n", u.Name, u.Email)
-}
-
-func (u *User) ChangeEmail(newEmail string) {
-	u.Email = newEmail
+type notifier interface {
+	Notify()
 }
 
 func main() {
-	admin := &Admin{
-		User: User{
-			Name:  "Alex",
-			Email: "alex@mail.com",
-		},
-		Level: "Super",
-	}
+	a := entities.Admin{}
+	a.New("iustin@gmail.com", "password")
 
-	admin.ChangeEmail("alex@newdomain.com")
+	var n notifier
+	n = &a
 
-	var p Printer = admin
-	p.Print()
-
-	if concreteAdmin, ok := p.(*Admin); ok {
-		fmt.Printf("Successfully asserted *Admin! Accessing Level: %s\n", concreteAdmin.Level)
-	}
-
-	inspectType(admin)
-	inspectType(42)
-	inspectType("Hello")
-}
-
-func inspectType(i any) {
-	switch v := i.(type) {
-	case *Admin:
-		fmt.Printf("Type Switch: Received *Admin with Level '%s'\n", v.Level)
-	case int:
-		fmt.Printf("Type Switch: Received int value %d\n", v)
-	case string:
-		fmt.Printf("Type Switch: Received string '%s'\n", v)
-	default:
-		fmt.Println("Type Switch: Unknown type")
-	}
+	n.Notify()
 }
