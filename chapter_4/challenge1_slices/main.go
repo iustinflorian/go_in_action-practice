@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"go_in_action-practice/chapter_4/challenge1/processor"
+	"go_in_action-practice/chapter_4/challenge1_slices/processor"
 )
 
 func main() {
